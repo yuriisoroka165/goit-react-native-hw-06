@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 
 import { styles } from "./PostsScreenStyles";
 import AuthenticatedUserInfo from "../../components/AuthenticatedUserInfo";
