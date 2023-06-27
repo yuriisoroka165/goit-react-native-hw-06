@@ -1,7 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { auth } from "../../firebase/config";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+} from "firebase/auth";
 
 export const registration = createAsyncThunk(
     "authorization/registration",
@@ -20,6 +24,23 @@ export const registration = createAsyncThunk(
                 });
                 return tryRegistration.user;
             }
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+export const login = createAsyncThunk(
+    "authorization/login",
+    async (userData, thunkAPI) => {
+        try {
+            const { email, password } = userData;
+            const tryLogin = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            return tryLogin._tokenResponse;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
         }

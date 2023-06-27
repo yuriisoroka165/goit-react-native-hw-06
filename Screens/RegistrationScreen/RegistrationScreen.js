@@ -41,14 +41,27 @@ const RegistrationScreen = () => {
     };
 
     const handleSubmitButtonPress = () => {
+        if (!login || !email || !password) {
+            alert("Please enter valid credentials!");
+            return;
+        }
         dispatch(
             registration({
                 userName: login,
                 email: email,
                 password: password,
-                userPhoto: userAvatar,
+                userPhoto: String(userAvatar),
             })
-        );
+        ).then(result => {
+            result.type === "authorization/registration/fulfilled"
+                ? navigation.navigate("Home", {
+                      screen: "PostScreen",
+                      params: {
+                          user: email,
+                      },
+                  })
+                : alert("Incorect data");
+        });
         isAutorized &&
             navigation.navigate("Home", {
                 screen: "PostScreen",
