@@ -6,6 +6,23 @@ import {
     signInWithEmailAndPassword,
     updateProfile,
 } from "firebase/auth";
+import { storage } from "../../firebase/config";
+// import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
+
+// const storage = getStorage();
+
+// const upload = async (file, currentUser) => {
+//     const fileRef = ref(storage, "profileAvatars/" + currentUser + ".png");
+//     const snapshot = await uploadBytesResumable(fileRef, file);
+// };
+
+import { ref, uploadBytesResumable } from "firebase/storage";
+const upload = async (file, currentUser) => {
+    const response = await fetch(file);
+    const blob = await response.blob();
+    const fileRef = ref(storage, "profileAvatars/" + currentUser + ".png");
+    await uploadBytesResumable(fileRef, blob);
+};
 
 export const registration = createAsyncThunk(
     "authorization/registration",
@@ -22,6 +39,8 @@ export const registration = createAsyncThunk(
                     displayName: userName,
                     photoURL: userPhoto,
                 });
+
+                await upload(userPhoto, tryRegistration.user.uid);
                 return tryRegistration.user;
             }
         } catch (error) {
