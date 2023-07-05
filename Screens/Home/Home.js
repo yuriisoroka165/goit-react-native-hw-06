@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 
 import CreatePostsScreen from "../CreatePostsScreen";
 import PostsScreen from "../PostsScreen";
@@ -14,12 +15,14 @@ import {
     PostsIcon,
     ProfileIcon,
 } from "../../components/SvgIcons/SvgIcons";
+import { logout } from "../../redux/authorization/authOperations";
 
 const AppTabs = createBottomTabNavigator();
 
 const Home = () => {
     const navigation = useNavigation();
     const route = useRoute();
+    const dispatch = useDispatch();
 
     return (
         <AppTabs.Navigator screenOptions={styles.homeContainer}>
@@ -34,7 +37,12 @@ const Home = () => {
                         <View style={{ marginRight: 16 }}>
                             <LogoutButton
                                 onPress={() =>
-                                    navigation.navigate("LoginScreen")
+                                    dispatch(logout()).then(result => {
+                                        result.type ===
+                                        "authorization/logout/fulfilled"
+                                            ? navigation.navigate("LoginScreen")
+                                            : alert("Logout error!");
+                                    })
                                 }
                             />
                         </View>

@@ -2,11 +2,12 @@ import { View, Text, Image } from "react-native";
 
 import { styles } from "./AuthenticatedUserInfoStyles";
 
-const AuthenticatedUserInfo = () => {
+const AuthenticatedUserInfo = (avatar) => {
     return (
         <View style={styles.userContainer}>
             <Image
-                source={require("../../assets/images/User.jpg")}
+                // source={require("../../assets/images/User.jpg")}
+                source={avatar}
                 style={{ width: 60, height: 60, borderRadius: 16 }}
             />
             <View>
