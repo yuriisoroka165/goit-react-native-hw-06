@@ -7,7 +7,7 @@ import {
     updateProfile,
 } from "firebase/auth";
 import { storage } from "../../firebase/config";
-import { ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 // import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 // const storage = getStorage();
@@ -39,6 +39,7 @@ export const registration = createAsyncThunk(
                     displayName: userName,
                     photoURL: userPhoto,
                 });
+                console.log(userPhoto);
 
                 await upload(userPhoto, tryRegistration.user.uid);
                 return tryRegistration.user;
@@ -53,6 +54,7 @@ export const login = createAsyncThunk(
     "authorization/login",
     async (userData, thunkAPI) => {
         try {
+            let userPhoto = null;
             const { email, password } = userData;
             const tryLogin = await signInWithEmailAndPassword(
                 auth,
@@ -61,22 +63,30 @@ export const login = createAsyncThunk(
             );
             if (tryLogin) {
                 const uid = tryLogin.user.uid;
-                console.log(uid);
+                // console.log(uid);
                 const userPhotoName = uid + ".png";
-                console.log(userPhotoName);
+                // console.log(userPhotoName);
 
-                let imageRef = storage.ref("profileAvatars/" + userPhotoName);
-                imageRef
-                    .getDownloadURL()
-                    .then(url => {
-                        //from url you can fetched the uploaded image easily
-                        this.setState({ profileImageUrl: url });
-                    })
-                    .catch(e =>
-                        console.log("getting downloadURL of image error => ", e)
-                    );
+                // let imageRef = storage.ref("profileAvatars/" + userPhotoName);
+                // imageRef
+                //     .getDownloadURL()
+                //     .then(url => {
+                //         //from url you can fetched the uploaded image easily
+                //         this.setState({ profileImageUrl: url });
+                //     })
+                //     .catch(e =>
+                //         console.log("getting downloadURL of image error => ", e)
+                //     );
+                const referense = ref(
+                    storage,
+                    "profileAvatars/" + userPhotoName
+                );
+                await getDownloadURL(referense).then(data => {
+                    // console.log(data);
+                    userPhoto = data;
+                });
             }
-            return tryLogin._tokenResponse;
+            return [tryLogin.user, userPhoto];
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
         }

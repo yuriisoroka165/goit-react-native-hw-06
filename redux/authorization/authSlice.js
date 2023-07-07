@@ -41,7 +41,8 @@ const authorizationSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(login.fulfilled, (state, { payload }) => {
-                const { email, displayName, storedId, photoURL } = payload;
+                const { email, displayName, storedId } = payload[0];
+                const { photoURL } = payload[1];
                 state.userId = storedId;
                 state.userName = displayName;
                 state.email = email;

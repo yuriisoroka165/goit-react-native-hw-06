@@ -45,6 +45,10 @@ const RegistrationScreen = () => {
             alert("Please enter valid credentials!");
             return;
         }
+        if (!userAvatar) {
+            alert("Please add user photo!");
+            return;
+        }
         dispatch(
             registration({
                 userName: login,

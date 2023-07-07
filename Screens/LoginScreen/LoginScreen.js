@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
     View,
     Text,
@@ -11,11 +11,13 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-
 import { styles } from "./LoginScreenStyles";
 import Background from "../../assets/images/app_background.jpg";
 import InputComponent from "../../components/InputComponent";
-import { selectIsAuthorized } from "../../redux/authorization/authSelectors";
+import {
+    selectIsAuthorized,
+    selectUserPhoto,
+} from "../../redux/authorization/authSelectors";
 import { login } from "../../redux/authorization/authOperations";
 
 const LoginScreen = () => {
@@ -25,12 +27,13 @@ const LoginScreen = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const isAutorized = useSelector(selectIsAuthorized);
+    const userPhoto = useSelector(selectUserPhoto);
 
     const navigateToPostsScreen = () => {
         navigation.navigate("Home", {
             screen: "PostScreen",
             params: {
-                user: "123",
+                user: userPhoto,
             },
         });
     };
@@ -48,13 +51,14 @@ const LoginScreen = () => {
         }
         dispatch(login({ email, password })).then(result => {
             result.type === "authorization/login/fulfilled"
-                ? navigation.navigate("Home", {
-                      screen: "PostScreen",
-                      params: {
-                          user: email,
-                      },
-                  })
-                : alert("Incorect data");
+                ? navigateToPostsScreen()
+                : // ? navigation.navigate("Home", {
+                  //       screen: "PostScreen",
+                  //       params: {
+                  //           user: email,
+                  //       },
+                  //   })
+                  alert("Incorect data");
         });
     };
 
