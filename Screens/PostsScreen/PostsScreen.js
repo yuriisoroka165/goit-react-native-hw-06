@@ -10,9 +10,7 @@ import { selectUserPhoto } from "../../redux/authorization/authSelectors";
 
 const PostsScreen = () => {
     const userPhoto = useSelector(selectUserPhoto);
-    // console.log(userPhoto);
-    const route = useRoute();
-    console.log(route);
+    console.log(userPhoto);
 
     return (
         <View style={styles.postsScreenContainer}>
