@@ -115,6 +115,7 @@ const CreatePostsScreen = () => {
                 locationName: photoLocationName,
                 geoLocation: currentGeoLocation,
                 userId,
+                // коменти лайки
             })
         );
         // console.log({
