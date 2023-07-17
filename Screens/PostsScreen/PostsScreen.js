@@ -1,21 +1,28 @@
 import { View, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
-import { useRoute } from "@react-navigation/native";
+// import { useRoute } from "@react-navigation/native";
 
 import { styles } from "./PostsScreenStyles";
 import AuthenticatedUserInfo from "../../components/AuthenticatedUserInfo";
 import PostComponent from "../../components/PostComponent/PostComponent";
 import { posts } from "../../posts";
-import { selectUserPhoto } from "../../redux/authorization/authSelectors";
+import {
+    selectUserPhoto,
+    selectIsAuthorized,
+    selectUserId,
+} from "../../redux/authorization/authSelectors";
 
 const PostsScreen = () => {
-    const userPhoto = useSelector(selectUserPhoto);
-    console.log(userPhoto);
-    console.log(userPhoto);
+    // const userPhoto = useSelector(selectUserPhoto);
+    // const isAuthorized = useSelector(selectIsAuthorized);
+    // const useId = useSelector(selectUserId);
+    // console.log(userPhoto);
+    // console.log(isAuthorized);
+    // console.log(useId);
 
     return (
         <View style={styles.postsScreenContainer}>
-            <AuthenticatedUserInfo avatar={userPhoto} />
+            <AuthenticatedUserInfo />
             <ScrollView
                 style={{ margin: 0, padding: 16 }}
                 showsVerticalScrollIndicator={false}

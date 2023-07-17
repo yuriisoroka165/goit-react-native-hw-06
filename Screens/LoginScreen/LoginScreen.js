@@ -17,6 +17,7 @@ import InputComponent from "../../components/InputComponent";
 import {
     selectIsAuthorized,
     selectUserPhoto,
+    selectUserId,
 } from "../../redux/authorization/authSelectors";
 import { login } from "../../redux/authorization/authOperations";
 
@@ -28,13 +29,11 @@ const LoginScreen = () => {
     const [showPassword, setShowPassword] = useState(false);
     const isAutorized = useSelector(selectIsAuthorized);
     const userPhoto = useSelector(selectUserPhoto);
+    const useId = useSelector(selectUserId);
 
     const navigateToPostsScreen = () => {
         navigation.navigate("Home", {
             screen: "PostScreen",
-            params: {
-                user: userPhoto,
-            },
         });
     };
 
@@ -60,6 +59,9 @@ const LoginScreen = () => {
                   //   })
                   alert("Incorect data");
         });
+        // console.log(userPhoto);
+        // console.log(isAutorized);
+        // console.log(useId);
     };
 
     return (

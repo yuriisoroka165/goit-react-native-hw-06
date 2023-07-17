@@ -86,6 +86,7 @@ export const login = createAsyncThunk(
                     userPhoto = data;
                 });
             }
+            // console.log([tryLogin.user, userPhoto]);
             return [tryLogin.user, userPhoto];
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);

@@ -14,10 +14,19 @@ import { useNavigation } from "@react-navigation/native";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
+import { useDispatch, useSelector } from "react-redux";
 
 import { posts } from "../../posts";
 import { styles } from "./CreatePostsScreenStyles";
-import { CameraIcon, MapIcon, TrashIcon } from "../../components/SvgIcons/SvgIcons";
+import {
+    CameraIcon,
+    MapIcon,
+    TrashIcon,
+} from "../../components/SvgIcons/SvgIcons";
+import { addPost } from "../../redux/posts/postsOperations";
+import { selectUserId } from "../../redux/authorization/authSelectors";
+import { uploadPhotoToStore } from "../../redux/storage/storageOperations";
+import { selectAllPosts } from "../../redux/posts/postsSelectors";
 
 const CreatePostsScreen = () => {
     const navigation = useNavigation();
@@ -27,6 +36,9 @@ const CreatePostsScreen = () => {
     const [hasPermission, setHasPermission] = useState(null);
     const [currentGeoLocation, setCurrentGeoLocation] = useState({});
     const cameraRef = useRef(null);
+    const dispatch = useDispatch();
+    const userId = useSelector(selectUserId);
+    const allPosts = useSelector(selectAllPosts);
 
     useEffect(() => {
         (async () => {
@@ -90,18 +102,42 @@ const CreatePostsScreen = () => {
         navigation.navigate("PostsScreen");
     };
 
-    const handleSubmit = () => {
-        const data = {
-            img: postPhoto,
-            description: photoName,
-            comments: [],
-            likes: 0,
-            locationName: photoLocationName,
-            geoLocation: currentGeoLocation,
-        };
-        posts.unshift(data);
-        clearData();
-        handleNavigateToPosts();
+    const handleSubmit = async () => {
+        if (!postPhoto || !photoName || !photoLocationName) {
+            alert("Please add data for all fields!");
+            return;
+        }
+        const { payload } = await dispatch(uploadPhotoToStore(postPhoto));
+        dispatch(
+            addPost({
+                img: payload,
+                description: photoName,
+                locationName: photoLocationName,
+                geoLocation: currentGeoLocation,
+                userId,
+            })
+        );
+        // console.log({
+        //     img: payload,
+        //     description: photoName,
+        //     locationName: photoLocationName,
+        //     geoLocation: currentGeoLocation,
+        //     useId,
+        // });
+        // console.log(allPosts);
+
+        // const data = {
+        // img: postPhoto,
+        // description: photoName,
+        // comments: [],
+        // likes: 0,
+        // locationName: photoLocationName,
+        // geoLocation: currentGeoLocation,
+        // };
+        // posts.unshift(data);
+
+        // clearData();
+        // handleNavigateToPosts();
     };
 
     return (
