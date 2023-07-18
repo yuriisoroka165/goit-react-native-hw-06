@@ -115,30 +115,12 @@ const CreatePostsScreen = () => {
                 locationName: photoLocationName,
                 geoLocation: currentGeoLocation,
                 userId,
-                // коменти лайки
+                comments: [],
+                likes: 0,
             })
         );
-        // console.log({
-        //     img: payload,
-        //     description: photoName,
-        //     locationName: photoLocationName,
-        //     geoLocation: currentGeoLocation,
-        //     useId,
-        // });
-        // console.log(allPosts);
-
-        // const data = {
-        // img: postPhoto,
-        // description: photoName,
-        // comments: [],
-        // likes: 0,
-        // locationName: photoLocationName,
-        // geoLocation: currentGeoLocation,
-        // };
-        // posts.unshift(data);
-
-        // clearData();
-        // handleNavigateToPosts();
+        clearData();
+        handleNavigateToPosts();
     };
 
     return (

@@ -22,6 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     authorization: authorizationReducer,
+    posts: postsReducer,
 });
 
 const reducer = persistReducer(persistConfig, rootReducer);
@@ -40,6 +41,8 @@ const store = configureStore({
                     REGISTER,
                     "authorization/registration/fulfilled",
                     "authorization/login/fulfilled",
+                    "posts/addPosts/fulfilled",
+                    "posts/getPosts/fulfilled",
                 ],
                 ignoredPaths: ["firebase", "firestore"],
             },

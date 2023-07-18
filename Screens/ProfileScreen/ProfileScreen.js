@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Image, Text, ScrollView, ImageBackground } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { useSelector } from "react-redux";
 
 import { styles } from "./ProfileScreenStyles";
 import Background from "../../assets/images/app_background.jpg";
@@ -9,10 +10,17 @@ import RegistrationImageAddButton from "../../components/RegistrationImageAddBut
 import RegistrationImageRemoveButton from "../../components/RegistrationImageRemoveButton";
 import PostComponent from "../../components/PostComponent/PostComponent";
 import LogoutButton from "../../components/LogoutButton";
-import { posts } from "../../posts";
+// import { posts } from "../../posts";
+import {
+    selectUserPhoto,
+    selectUserName,
+} from "../../redux/authorization/authSelectors";
+import { selectCurrentUserPosts } from "../../redux/posts/postsSelectors";
 
 const ProfileScreen = () => {
-    const [login, setLogin] = useState("Natali Romanova");
+    const posts = useSelector(selectCurrentUserPosts);
+    const userPhoto = useSelector(selectUserPhoto);
+    const userName = useSelector(selectUserName);
     const [userAvatar, setUserAavatar] = useState(userAvatar);
     const navigation = useNavigation();
 
@@ -45,9 +53,9 @@ const ProfileScreen = () => {
                 </View>
 
                 <View style={styles.userImageContainer}>
-                    {userAvatar && (
+                    {userPhoto && (
                         <Image
-                            source={{ uri: userAvatar }}
+                            source={{ uri: userPhoto }}
                             style={{
                                 width: 120,
                                 height: 120,
@@ -55,7 +63,7 @@ const ProfileScreen = () => {
                             }}
                         />
                     )}
-                    {!userAvatar ? (
+                    {!userPhoto ? (
                         <RegistrationImageAddButton
                             onPress={uploadAvatar}
                         ></RegistrationImageAddButton>
@@ -66,33 +74,33 @@ const ProfileScreen = () => {
                     )}
                 </View>
 
-                <Text style={styles.profileHeader}>{login}</Text>
+                <Text style={styles.profileHeader}>{userName}</Text>
                 <ScrollView
                     style={{ margin: 0, padding: 0 }}
                     showsVerticalScrollIndicator={false}
                 >
-                    {posts.map(
-                        ({
+                    {posts.map(item => {
+                        const key = Object.keys(item)[0];
+                        const {
                             img,
                             description,
                             likes,
                             comments,
                             locationName,
                             geoLocation,
-                        }) => {
-                            return (
-                                <PostComponent
-                                    key={description}
-                                    image={img}
-                                    description={description}
-                                    likes={likes}
-                                    comments={comments}
-                                    locationName={locationName}
-                                    geoLocation={geoLocation}
-                                />
-                            );
-                        }
-                    )}
+                        } = item[key];
+                        return (
+                            <PostComponent
+                                key={key}
+                                image={img}
+                                description={description}
+                                likes={likes}
+                                comments={comments ? comments : []}
+                                locationName={locationName}
+                                geoLocation={geoLocation}
+                            />
+                        );
+                    })}
                 </ScrollView>
             </View>
         </ImageBackground>
