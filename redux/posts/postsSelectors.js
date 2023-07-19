@@ -4,6 +4,11 @@ export const selectCurrentUserPosts = state => {
         item => (item.uid = state.authorization.userId)
     );
 };
+export const selectComments = state => {
+    return state.posts.posts.comments.filter(
+        item => (item.id = state.posts.posts.id)
+    );
+};
 
 const pst = [
     {

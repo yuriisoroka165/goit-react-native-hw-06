@@ -43,6 +43,8 @@ const store = configureStore({
                     "authorization/login/fulfilled",
                     "posts/addPosts/fulfilled",
                     "posts/getPosts/fulfilled",
+                    "posts/addComment/fulfilled",
+                    "posts/getComments/fulfilled",
                 ],
                 ignoredPaths: ["firebase", "firestore"],
             },

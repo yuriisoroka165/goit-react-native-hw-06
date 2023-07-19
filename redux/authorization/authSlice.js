@@ -71,7 +71,7 @@ const authorizationSlice = createSlice({
             })
             .addCase(logout.rejected, (state, { payload }) => {
                 state.error = payload;
-                state.isAuthorized = false;
+                state.isAuthorized = true;
                 state.isLoading = false;
             });
     },

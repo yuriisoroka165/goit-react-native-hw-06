@@ -16,7 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
 
-import { posts } from "../../posts";
+// import { posts } from "../../posts";
 import { styles } from "./CreatePostsScreenStyles";
 import {
     CameraIcon,

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { addPost, getPosts } from "./postsOperations";
+import { addPost, getPosts, addComment, getComments } from "./postsOperations";
 
 const initialState = {
     posts: [],
@@ -37,6 +37,44 @@ const postsSlice = createSlice({
             })
             .addCase(getPosts.rejected, (state, { payload }) => {
                 state.error = payload;
+                state.isLoading = false;
+            })
+            .addCase(addComment.pending, state => {
+                // state.error = null;
+                state.isLoading = true;
+            })
+            .addCase(addComment.fulfilled, (state, { payload }) => {
+                // перезапис коментарів в стейті
+
+                // console.log(payload);
+                // console.log(state.posts);
+                // const postId = payload[0];
+                // const updatedPost = state.posts.find(
+                //     obj => (obj.hasOwnProperty(postId).comments = payload[1])
+                // );
+                // console.log(post);
+                // console.log(...payload[1]);
+                // state.posts = payload;
+
+                state.error = null;
+                state.isLoading = false;
+            })
+            .addCase(addComment.rejected, (state, { payload }) => {
+                // state.error = payload;
+                state.isLoading = false;
+            })
+            .addCase(getComments.pending, state => {
+                // state.error = null;
+                state.isLoading = true;
+            })
+            .addCase(getComments.fulfilled, (state, { payload }) => {
+                console.log(payload);
+                // state.posts = payload;
+                state.error = null;
+                state.isLoading = false;
+            })
+            .addCase(getComments.rejected, (state, { payload }) => {
+                // state.error = payload;
                 state.isLoading = false;
             });
     },
