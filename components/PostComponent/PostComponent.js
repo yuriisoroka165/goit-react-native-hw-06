@@ -8,6 +8,9 @@ import {
     LikesIcon,
     MapIcon,
 } from "../SvgIcons/SvgIcons";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getComments } from "../../redux/posts/postsOperations";
 
 const PostComponent = ({
     image,
@@ -18,6 +21,11 @@ const PostComponent = ({
     geoLocation,
 }) => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getComments());
+    }, [comments]);
 
     return (
         <View style={{ position: "relative", marginBottom: 32 }}>
@@ -40,7 +48,7 @@ const PostComponent = ({
                             })
                         }
                     >
-                        {comments.length === 0 ? (
+                        {Object.values(comments).length === 0 ? (
                             <CommentIcon />
                         ) : (
                             <CommentOrangeIcon />

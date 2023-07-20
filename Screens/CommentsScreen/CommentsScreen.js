@@ -9,28 +9,24 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import urid from "urid";
 
 import { styles } from "./CommentsScreenStyles";
 import ReturnButton from "../../components/ReturnButton";
 import commentatorPhoto from "../../assets/images/comentator.png";
 import userPhoto from "../../assets/images/User.jpg";
 import CommentComponent from "../../components/CommentComponent";
-// import CommentInput from "../../components/CommentInput/CommentInput";
 import { SendIcon } from "../../components/SvgIcons/SvgIcons";
 import { addComment, getComments } from "../../redux/posts/postsOperations";
-// import { selectComments } from "../../redux/posts/postsSelectors";
 
 const CommentsScreen = () => {
     const dispatch = useDispatch();
-    // const comments1 = useSelector(selectComments);
     const navigation = useNavigation();
     const {
         params: {
             params: { comments, image },
         },
     } = useRoute();
-    // console.log(comments);
-    // console.log(image);
 
     const handleReturnPress = () => {
         navigation.navigate("Home", {
@@ -43,6 +39,7 @@ const CommentsScreen = () => {
             addComment([
                 "0tEi41cAAi7kddKF",
                 {
+                    id: urid(),
                     author: "owner",
                     text: "stohwrgwopebffuweonoweto",
                     date: "09 червня, 2020 | 09:20",
@@ -79,10 +76,10 @@ const CommentsScreen = () => {
                 style={{ margin: 0, padding: 0 }}
                 showsVerticalScrollIndicator={false}
             >
-                {comments.map(({ author, text, date }) => {
+                {Object.values(comments).map(({ id, author, text, date }) => {
                     return (
                         <CommentComponent
-                            key={text}
+                            key={id}
                             author={author}
                             text={text}
                             date={date}
@@ -95,7 +92,6 @@ const CommentsScreen = () => {
                     );
                 })}
             </ScrollView>
-            {/* <CommentInput func={handleSubmit} /> */}
             <View style={styles.container}>
                 <TextInput style={styles.input} placeholder="Коментувати..." />
                 <TouchableOpacity onPress={handleSubmit} style={styles.button}>

@@ -44,18 +44,13 @@ const postsSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(addComment.fulfilled, (state, { payload }) => {
-                // перезапис коментарів в стейті
-
-                // console.log(payload);
-                // console.log(state.posts);
-                // const postId = payload[0];
-                // const updatedPost = state.posts.find(
-                //     obj => (obj.hasOwnProperty(postId).comments = payload[1])
-                // );
-                // console.log(post);
-                // console.log(...payload[1]);
-                // state.posts = payload;
-
+                const postIndex = state.posts.findIndex(obj =>
+                    obj.hasOwnProperty(payload[0])
+                );
+                if (postIndex !== -1) {
+                    state.posts[postIndex][payload[0]] = payload[1];
+                    // console.log(state.posts[postIndex][payload[0]]);
+                }
                 state.error = null;
                 state.isLoading = false;
             })
