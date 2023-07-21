@@ -28,8 +28,7 @@ const LoginScreen = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const isAutorized = useSelector(selectIsAuthorized);
-    const userPhoto = useSelector(selectUserPhoto);
-    const useId = useSelector(selectUserId);
+
 
     const navigateToPostsScreen = () => {
         navigation.navigate("Home", {
@@ -51,17 +50,10 @@ const LoginScreen = () => {
         dispatch(login({ email, password })).then(result => {
             result.type === "authorization/login/fulfilled"
                 ? navigateToPostsScreen()
-                : // ? navigation.navigate("Home", {
-                  //       screen: "PostScreen",
-                  //       params: {
-                  //           user: email,
-                  //       },
-                  //   })
+                : 
                   alert("Incorect data");
         });
-        // console.log(userPhoto);
-        // console.log(isAutorized);
-        // console.log(useId);
+
     };
 
     return (

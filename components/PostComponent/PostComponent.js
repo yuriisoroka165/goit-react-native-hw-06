@@ -19,13 +19,15 @@ const PostComponent = ({
     likes,
     locationName,
     geoLocation,
+    id
 }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getComments());
-    }, [comments]);
+
+    // useEffect(() => {
+    //     dispatch(getComments());
+    // }, [comments]);
 
     return (
         <View style={{ position: "relative", marginBottom: 32 }}>
@@ -44,7 +46,7 @@ const PostComponent = ({
                     <TouchableOpacity
                         onPress={() =>
                             navigation.navigate("CommentsScreen", {
-                                params: { comments, image },
+                                params: { comments, image, id },
                             })
                         }
                     >

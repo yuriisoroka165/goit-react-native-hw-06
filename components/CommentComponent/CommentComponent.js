@@ -1,20 +1,28 @@
 import { View, Text, Image } from "react-native";
+import { useSelector } from "react-redux";
 
 import { styles } from "./CommentComponentStyles";
+import { selectUserId } from "../../redux/authorization/authSelectors";
 
 const CommentComponent = ({ author, text, date, userIcon }) => {
+    const userId = useSelector(selectUserId);
+    // console.log(userId);
+    // console.log(author);
     return (
         <View
             style={[
                 styles.commentContainer,
-                author === "owner" ? { flexDirection: "row-reverse" } : {},
+                author === userId ? { flexDirection: "row-reverse" } : {},
             ]}
         >
-            <Image source={userIcon} style={styles.userIcon} />
+            <Image
+                source={{ uri: userIcon }}
+                style={styles.userIcon}
+            />
             <View
                 style={[
                     styles.comment,
-                    author === "owner"
+                    author === userId
                         ? { borderTopEndRadius: 0, borderTopLeftRadius: 6 }
                         : {},
                 ]}
@@ -23,7 +31,7 @@ const CommentComponent = ({ author, text, date, userIcon }) => {
                 <Text
                     style={[
                         styles.date,
-                        author === "owner"
+                        author === userId
                             ? { marginRight: "auto", marginLeft: 0 }
                             : {},
                     ]}

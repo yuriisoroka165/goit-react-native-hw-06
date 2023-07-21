@@ -13,20 +13,30 @@ import urid from "urid";
 
 import { styles } from "./CommentsScreenStyles";
 import ReturnButton from "../../components/ReturnButton";
-import commentatorPhoto from "../../assets/images/comentator.png";
-import userPhoto from "../../assets/images/User.jpg";
+// import commentatorPhoto from "../../assets/images/comentator.png";
+// import userPhoto from "../../assets/images/User.jpg";
 import CommentComponent from "../../components/CommentComponent";
 import { SendIcon } from "../../components/SvgIcons/SvgIcons";
 import { addComment, getComments } from "../../redux/posts/postsOperations";
+import {
+    selectUserId,
+    selectUserPhoto,
+} from "../../redux/authorization/authSelectors";
 
 const CommentsScreen = () => {
+    const [comment, setComment] = useState("");
+    const userId = useSelector(selectUserId);
     const dispatch = useDispatch();
+    const userPhoto = useSelector(selectUserPhoto);
+    // зроби загрузку фотки коментатора
+    const commentatorPhoto = "dfignedjnfg";
     const navigation = useNavigation();
     const {
         params: {
-            params: { comments, image },
+            params: { comments, image, id },
         },
     } = useRoute();
+    // console.log(commentatorPhoto);
 
     const handleReturnPress = () => {
         navigation.navigate("Home", {
@@ -37,15 +47,17 @@ const CommentsScreen = () => {
     const handleSubmit = () => {
         dispatch(
             addComment([
-                "0tEi41cAAi7kddKF",
+                id,
                 {
                     id: urid(),
-                    author: "owner",
-                    text: "stohwrgwopebffuweonoweto",
-                    date: "09 червня, 2020 | 09:20",
+
+                    author: userId,
+                    text: comment,
+                    date: new Date(),
                 },
             ])
         );
+        setComment("");
     };
 
     return (
@@ -83,17 +95,23 @@ const CommentsScreen = () => {
                             author={author}
                             text={text}
                             date={date}
+                            // userIcon={userPhoto}
                             userIcon={
-                                author === "owner"
-                                    ? userPhoto
-                                    : commentatorPhoto
+                                author === userId ? userPhoto : commentatorPhoto
                             }
                         />
                     );
                 })}
             </ScrollView>
             <View style={styles.container}>
-                <TextInput style={styles.input} placeholder="Коментувати..." />
+                <TextInput
+                    style={styles.input}
+                    type={"text"}
+                    name={"comment"}
+                    placeholder="Коментувати..."
+                    value={comment}
+                    onChangeText={setComment}
+                />
                 <TouchableOpacity onPress={handleSubmit} style={styles.button}>
                     <SendIcon />
                 </TouchableOpacity>
