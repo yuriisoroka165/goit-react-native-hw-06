@@ -13,15 +13,17 @@ import urid from "urid";
 
 import { styles } from "./CommentsScreenStyles";
 import ReturnButton from "../../components/ReturnButton";
-// import commentatorPhoto from "../../assets/images/comentator.png";
+import commentatorPhoto from "../../assets/images/comentator.png";
 // import userPhoto from "../../assets/images/User.jpg";
 import CommentComponent from "../../components/CommentComponent";
 import { SendIcon } from "../../components/SvgIcons/SvgIcons";
-import { addComment, getComments } from "../../redux/posts/postsOperations";
+import { addComment, getPosts } from "../../redux/posts/postsOperations";
 import {
     selectUserId,
     selectUserPhoto,
 } from "../../redux/authorization/authSelectors";
+import { selectAllPosts } from "../../redux/posts/postsSelectors";
+import { useEffect } from "react";
 
 const CommentsScreen = () => {
     const [comment, setComment] = useState("");
@@ -29,14 +31,19 @@ const CommentsScreen = () => {
     const dispatch = useDispatch();
     const userPhoto = useSelector(selectUserPhoto);
     // зроби загрузку фотки коментатора
-    const commentatorPhoto = "dfignedjnfg";
+    // const commentatorPhoto = "dfignedjnfg";
     const navigation = useNavigation();
     const {
         params: {
             params: { comments, image, id },
         },
     } = useRoute();
+    const posts = useSelector(selectAllPosts);
     // console.log(commentatorPhoto);
+
+    // useEffect(() => {
+    //     dispatch(getPosts());
+    // }, [posts]);
 
     const handleReturnPress = () => {
         navigation.navigate("Home", {
@@ -58,6 +65,7 @@ const CommentsScreen = () => {
             ])
         );
         setComment("");
+        dispatch(getPosts());
     };
 
     return (

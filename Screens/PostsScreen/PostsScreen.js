@@ -5,12 +5,17 @@ import { useEffect } from "react";
 import { styles } from "./PostsScreenStyles";
 import AuthenticatedUserInfo from "../../components/AuthenticatedUserInfo";
 import PostComponent from "../../components/PostComponent/PostComponent";
-import { selectAllPosts } from "../../redux/posts/postsSelectors";
+import {
+    selectAllPosts,
+    selectComments,
+} from "../../redux/posts/postsSelectors";
 import { getPosts } from "../../redux/posts/postsOperations";
 
 const PostsScreen = () => {
     const posts = useSelector(selectAllPosts);
     const dispatch = useDispatch();
+    const comm = useSelector(selectComments);
+    console.log(comm);
 
     useEffect(() => {
         dispatch(getPosts());

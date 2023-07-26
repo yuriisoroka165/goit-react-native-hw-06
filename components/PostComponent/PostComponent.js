@@ -1,5 +1,7 @@
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import { styles } from "./PostComponentStyles";
 import {
@@ -8,9 +10,8 @@ import {
     LikesIcon,
     MapIcon,
 } from "../SvgIcons/SvgIcons";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getComments } from "../../redux/posts/postsOperations";
+import comentatorPhoto from "../../assets/images/comentator.png"
+// import { getComments } from "../../redux/posts/postsOperations";
 
 const PostComponent = ({
     image,
@@ -32,7 +33,7 @@ const PostComponent = ({
     return (
         <View style={{ position: "relative", marginBottom: 32 }}>
             <Image
-                source={{ uri: image }}
+                source={{ uri: image ? image : comentatorPhoto }}
                 style={{
                     width: "100%",
                     height: 240,

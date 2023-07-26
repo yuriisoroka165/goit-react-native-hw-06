@@ -61,19 +61,19 @@ export const addComment = createAsyncThunk(
     }
 );
 
-export const getComments = createAsyncThunk(
-    "posts/getComments",
-    async (postId, thunkAPI) => {
-        try {
-            const dbRef = ref(database, `posts/${postId}/comments`);
-            const queueSnapshot = await get(dbRef);
-            const comments = queueSnapshot.val();
-            const result = Object.keys(comments).map(key => ({
-                [key]: comments[key],
-            }));
-            return result;
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error.message);
-        }
-    }
-);
+// export const getComments = createAsyncThunk(
+//     "posts/getComments",
+//     async (postId, thunkAPI) => {
+//         try {
+//             const dbRef = ref(database, `posts/${postId}/comments`);
+//             const queueSnapshot = await get(dbRef);
+//             const comments = queueSnapshot.val();
+//             const result = Object.keys(comments).map(key => ({
+//                 [key]: comments[key],
+//             }));
+//             return result;
+//         } catch (error) {
+//             return thunkAPI.rejectWithValue(error.message);
+//         }
+//     }
+// );

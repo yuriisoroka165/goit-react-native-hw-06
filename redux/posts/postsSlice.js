@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { addPost, getPosts, addComment, getComments } from "./postsOperations";
+import { addPost, getPosts, addComment } from "./postsOperations";
 
 const initialState = {
     posts: [],
@@ -55,23 +55,23 @@ const postsSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(addComment.rejected, (state, { payload }) => {
-                // state.error = payload;
-                state.isLoading = false;
-            })
-            .addCase(getComments.pending, state => {
-                // state.error = null;
-                state.isLoading = true;
-            })
-            .addCase(getComments.fulfilled, (state, { payload }) => {
-                console.log(payload);
-                // state.posts = payload;
-                state.error = null;
-                state.isLoading = false;
-            })
-            .addCase(getComments.rejected, (state, { payload }) => {
-                // state.error = payload;
+                state.error = payload;
                 state.isLoading = false;
             });
+        // .addCase(getComments.pending, state => {
+        //     // state.error = null;
+        //     state.isLoading = true;
+        // })
+        // .addCase(getComments.fulfilled, (state, { payload }) => {
+        //     console.log(payload);
+        //     // state.posts = payload;
+        //     state.error = null;
+        //     state.isLoading = false;
+        // })
+        // .addCase(getComments.rejected, (state, { payload }) => {
+        //     // state.error = payload;
+        //     state.isLoading = false;
+        // });
     },
 });
 
