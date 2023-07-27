@@ -40,7 +40,7 @@ const postsSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(addComment.pending, state => {
-                // state.error = null;
+                state.error = null;
                 state.isLoading = true;
             })
             .addCase(addComment.fulfilled, (state, { payload }) => {
@@ -49,7 +49,6 @@ const postsSlice = createSlice({
                 );
                 if (postIndex !== -1) {
                     state.posts[postIndex][payload[0]] = payload[1];
-                    // console.log(state.posts[postIndex][payload[0]]);
                 }
                 state.error = null;
                 state.isLoading = false;
@@ -58,20 +57,6 @@ const postsSlice = createSlice({
                 state.error = payload;
                 state.isLoading = false;
             });
-        // .addCase(getComments.pending, state => {
-        //     // state.error = null;
-        //     state.isLoading = true;
-        // })
-        // .addCase(getComments.fulfilled, (state, { payload }) => {
-        //     console.log(payload);
-        //     // state.posts = payload;
-        //     state.error = null;
-        //     state.isLoading = false;
-        // })
-        // .addCase(getComments.rejected, (state, { payload }) => {
-        //     // state.error = payload;
-        //     state.isLoading = false;
-        // });
     },
 });
 

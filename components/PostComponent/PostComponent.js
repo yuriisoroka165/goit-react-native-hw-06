@@ -33,7 +33,7 @@ const PostComponent = ({
     return (
         <View style={{ position: "relative", marginBottom: 32 }}>
             <Image
-                source={{ uri: image ? image : comentatorPhoto }}
+                source={{ uri: image }}
                 style={{
                     width: "100%",
                     height: 240,
@@ -47,7 +47,7 @@ const PostComponent = ({
                     <TouchableOpacity
                         onPress={() =>
                             navigation.navigate("CommentsScreen", {
-                                params: { comments, image, id },
+                                params: { image, id },
                             })
                         }
                     >

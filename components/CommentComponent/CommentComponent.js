@@ -1,13 +1,15 @@
 import { View, Text, Image } from "react-native";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 import { styles } from "./CommentComponentStyles";
 import { selectUserId } from "../../redux/authorization/authSelectors";
 
 const CommentComponent = ({ author, text, date, userIcon }) => {
     const userId = useSelector(selectUserId);
-    // console.log(userId);
-    // console.log(author);
+    const formattedDate = moment(date)
+        .utcOffset("+0300")
+        .format("DD MMMM, YYYY | HH:mm");
     return (
         <View
             style={[
@@ -15,10 +17,7 @@ const CommentComponent = ({ author, text, date, userIcon }) => {
                 author === userId ? { flexDirection: "row-reverse" } : {},
             ]}
         >
-            <Image
-                source={{ uri: userIcon }}
-                style={styles.userIcon}
-            />
+            <Image source={{ uri: userIcon }} style={styles.userIcon} />
             <View
                 style={[
                     styles.comment,
@@ -36,7 +35,7 @@ const CommentComponent = ({ author, text, date, userIcon }) => {
                             : {},
                     ]}
                 >
-                    {date}
+                    {formattedDate}
                 </Text>
             </View>
         </View>

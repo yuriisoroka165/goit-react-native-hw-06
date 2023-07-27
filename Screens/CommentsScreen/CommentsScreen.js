@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import {
     View,
@@ -14,7 +14,6 @@ import urid from "urid";
 import { styles } from "./CommentsScreenStyles";
 import ReturnButton from "../../components/ReturnButton";
 import commentatorPhoto from "../../assets/images/comentator.png";
-// import userPhoto from "../../assets/images/User.jpg";
 import CommentComponent from "../../components/CommentComponent";
 import { SendIcon } from "../../components/SvgIcons/SvgIcons";
 import { addComment, getPosts } from "../../redux/posts/postsOperations";
@@ -22,8 +21,7 @@ import {
     selectUserId,
     selectUserPhoto,
 } from "../../redux/authorization/authSelectors";
-import { selectAllPosts } from "../../redux/posts/postsSelectors";
-import { useEffect } from "react";
+import { selectComments } from "../../redux/posts/postsSelectors";
 
 const CommentsScreen = () => {
     const [comment, setComment] = useState("");
@@ -35,15 +33,21 @@ const CommentsScreen = () => {
     const navigation = useNavigation();
     const {
         params: {
-            params: { comments, image, id },
+            params: { image, id },
         },
     } = useRoute();
-    const posts = useSelector(selectAllPosts);
-    // console.log(commentatorPhoto);
+    const comments = useSelector(state => selectComments(state, id));
+    console.log(comments);
 
-    // useEffect(() => {
-    //     dispatch(getPosts());
-    // }, [posts]);
+    // const storedComments = useRef(comments);
+
+    // проблема зациклення
+    useEffect(() => {
+        dispatch(getPosts());
+        // if (storedComments === comments) {
+        //     return;
+        // }
+    }, []);
 
     const handleReturnPress = () => {
         navigation.navigate("Home", {
@@ -65,7 +69,6 @@ const CommentsScreen = () => {
             ])
         );
         setComment("");
-        dispatch(getPosts());
     };
 
     return (
@@ -96,20 +99,27 @@ const CommentsScreen = () => {
                 style={{ margin: 0, padding: 0 }}
                 showsVerticalScrollIndicator={false}
             >
-                {Object.values(comments).map(({ id, author, text, date }) => {
-                    return (
-                        <CommentComponent
-                            key={id}
-                            author={author}
-                            text={text}
-                            date={date}
-                            // userIcon={userPhoto}
-                            userIcon={
-                                author === userId ? userPhoto : commentatorPhoto
-                            }
-                        />
-                    );
-                })}
+                {comments ? (
+                    Object.values(comments).map(
+                        ({ id, author, text, date }) => {
+                            return (
+                                <CommentComponent
+                                    key={id}
+                                    author={author}
+                                    text={text}
+                                    date={date}
+                                    userIcon={
+                                        author === userId
+                                            ? userPhoto
+                                            : commentatorPhoto
+                                    }
+                                />
+                            );
+                        }
+                    )
+                ) : (
+                    <View></View>
+                )}
             </ScrollView>
             <View style={styles.container}>
                 <TextInput

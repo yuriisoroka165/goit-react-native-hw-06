@@ -4,12 +4,8 @@ export const selectCurrentUserPosts = state => {
         item => (item.uid = state.authorization.userId)
     );
 };
-// export const selectComments = state => {
-//     return state.posts.posts.comments.filter(
-//         item => (item.id = state.posts.posts.id)
-//     );
-// };
-export const selectComments = state => {
-    return state.posts.posts.filter(item => item["8HszzGPyXHqdy7iy"]);
-    // це дописати
+
+export const selectComments = (state, id) => {
+    const comments = state.posts.posts.filter(item => item[id]);
+    return comments[0][id].comments;
 };
