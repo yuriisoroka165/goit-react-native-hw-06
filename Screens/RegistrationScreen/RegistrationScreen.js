@@ -66,9 +66,9 @@ const RegistrationScreen = () => {
             result.type === "authorization/registration/fulfilled"
                 ? navigation.navigate("Home", {
                       screen: "PostScreen",
-                      params: {
-                          user: email,
-                      },
+                    //   params: {
+                    //       user: email,
+                    //   },
                   })
                 : alert("Incorect data");
         });
@@ -76,9 +76,9 @@ const RegistrationScreen = () => {
         isAutorized &&
             navigation.navigate("Home", {
                 screen: "PostScreen",
-                params: {
-                    user: email,
-                },
+                // params: {
+                //     user: email,
+                // },
             });
         // navigation.navigate("MapScreen");
         // console.log(userPhoto);

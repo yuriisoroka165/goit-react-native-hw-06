@@ -16,8 +16,8 @@ import Background from "../../assets/images/app_background.jpg";
 import InputComponent from "../../components/InputComponent";
 import {
     selectIsAuthorized,
-    selectUserPhoto,
-    selectUserId,
+    // selectUserPhoto,
+    // selectUserId,
 } from "../../redux/authorization/authSelectors";
 import { login } from "../../redux/authorization/authOperations";
 
@@ -28,7 +28,6 @@ const LoginScreen = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const isAutorized = useSelector(selectIsAuthorized);
-
 
     const navigateToPostsScreen = () => {
         navigation.navigate("Home", {
@@ -48,12 +47,11 @@ const LoginScreen = () => {
             return;
         }
         dispatch(login({ email, password })).then(result => {
+            // console.log(result.type);
             result.type === "authorization/login/fulfilled"
                 ? navigateToPostsScreen()
-                : 
-                  alert("Incorect data");
+                : alert("Incorect data");
         });
-
     };
 
     return (

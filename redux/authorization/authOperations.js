@@ -39,7 +39,7 @@ export const registration = createAsyncThunk(
                     displayName: userName,
                     photoURL: userPhoto,
                 });
-                console.log(userPhoto);
+                // console.log(userPhoto);
 
                 await upload(userPhoto, tryRegistration.user.uid);
                 return tryRegistration.user;
@@ -81,6 +81,7 @@ export const login = createAsyncThunk(
                     storage,
                     "profileAvatars/" + userPhotoName
                 );
+                // console.log(referense);
                 await getDownloadURL(referense).then(data => {
                     // console.log(data);
                     userPhoto = data;

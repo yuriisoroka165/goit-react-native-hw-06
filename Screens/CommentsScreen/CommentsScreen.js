@@ -37,17 +37,11 @@ const CommentsScreen = () => {
         },
     } = useRoute();
     const comments = useSelector(state => selectComments(state, id));
-    console.log(comments);
+    // ПРОБЛЕМА ПРИ ЗАГРУЗЦІ КОМЕНТАРІВ ВІД ІНШОГО КОРИСТУВАЧА
 
-    // const storedComments = useRef(comments);
-
-    // проблема зациклення
-    useEffect(() => {
-        dispatch(getPosts());
-        // if (storedComments === comments) {
-        //     return;
-        // }
-    }, []);
+    const compareDates = (a, b) => {
+        return new Date(a.date) - new Date(b.date);
+    };
 
     const handleReturnPress = () => {
         navigation.navigate("Home", {
@@ -61,7 +55,6 @@ const CommentsScreen = () => {
                 id,
                 {
                     id: urid(),
-
                     author: userId,
                     text: comment,
                     date: new Date(),
@@ -70,6 +63,10 @@ const CommentsScreen = () => {
         );
         setComment("");
     };
+
+    useEffect(() => {
+        dispatch(getPosts());
+    }, [comments]);
 
     return (
         <View style={styles.commentsScreenContainer}>
@@ -100,8 +97,9 @@ const CommentsScreen = () => {
                 showsVerticalScrollIndicator={false}
             >
                 {comments ? (
-                    Object.values(comments).map(
-                        ({ id, author, text, date }) => {
+                    Object.values(comments)
+                        .sort(compareDates)
+                        .map(({ id, author, text, date }) => {
                             return (
                                 <CommentComponent
                                     key={id}
@@ -115,8 +113,7 @@ const CommentsScreen = () => {
                                     }
                                 />
                             );
-                        }
-                    )
+                        })
                 ) : (
                     <View></View>
                 )}

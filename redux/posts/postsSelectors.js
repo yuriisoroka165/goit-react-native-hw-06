@@ -1,4 +1,5 @@
 export const selectAllPosts = state => state.posts.posts;
+export const selectIsLoading = state => state.posts.isLoading;
 export const selectCurrentUserPosts = state => {
     return state.posts.posts.filter(
         item => (item.uid = state.authorization.userId)
