@@ -3,6 +3,8 @@ import { get, update, ref } from "firebase/database";
 import urid from "urid";
 
 import { database } from "../../firebase/config";
+import { storage } from "../../firebase/config";
+import { getDownloadURL, listAll, ref as storageRef } from "firebase/storage";
 
 export const addPost = createAsyncThunk(
     "posts/addPost",
@@ -57,6 +59,32 @@ export const addComment = createAsyncThunk(
             return [data[0], result];
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getCommmentatorsPhoto = createAsyncThunk(
+    "posts/getCommmentatorsPhoto",
+    async (_, thunkAPI) => {
+        // const referense = storageRef(storage, "profileAvatars");
+        // console.log(referense);
+        // await getDownloadURL(referense).then(data => {
+        //     // console.log(data);
+        // });
+        // // return { uid, photo };
+        const folderRef = storageRef(storage, "profileAvatars");
+        const photos = [];
+
+        try {
+            const { items } = await listAll(folderRef);
+            for (const itemRef of items) {
+                const url = await getDownloadURL(itemRef);
+                const uidFromfileName = itemRef.name.split(".")[0];
+                photos.push({ uid: uidFromfileName, url });
+            }
+            return photos;
+        } catch (error) {
+            return error;
         }
     }
 );

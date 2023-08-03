@@ -45,6 +45,7 @@ const store = configureStore({
                     "posts/getPosts/fulfilled",
                     "posts/addComment/fulfilled",
                     "posts/getComments/fulfilled",
+                    "posts/getCommmentatorsPhoto/fulfilled",
                 ],
                 ignoredPaths: ["firebase", "firestore"],
             },

@@ -6,7 +6,10 @@ import { styles } from "./PostsScreenStyles";
 import AuthenticatedUserInfo from "../../components/AuthenticatedUserInfo";
 import PostComponent from "../../components/PostComponent/PostComponent";
 import { selectAllPosts } from "../../redux/posts/postsSelectors";
-import { getPosts } from "../../redux/posts/postsOperations";
+import {
+    getCommmentatorsPhoto,
+    getPosts,
+} from "../../redux/posts/postsOperations";
 
 const PostsScreen = () => {
     const posts = useSelector(selectAllPosts);
@@ -14,6 +17,7 @@ const PostsScreen = () => {
 
     useEffect(() => {
         dispatch(getPosts());
+        dispatch(getCommmentatorsPhoto());
     }, []);
 
     return (

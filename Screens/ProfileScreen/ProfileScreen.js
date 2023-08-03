@@ -14,11 +14,14 @@ import LogoutButton from "../../components/LogoutButton";
 import {
     selectUserPhoto,
     selectUserName,
+    selectUserId,
 } from "../../redux/authorization/authSelectors";
+
 import { selectCurrentUserPosts } from "../../redux/posts/postsSelectors";
 
 const ProfileScreen = () => {
-    const posts = useSelector(selectCurrentUserPosts);
+    const userId = useSelector(selectUserId);
+    const posts = useSelector(state => selectCurrentUserPosts(state, userId));
     const userPhoto = useSelector(selectUserPhoto);
     const userName = useSelector(selectUserName);
     const [userAvatar, setUserAavatar] = useState(userAvatar);

@@ -13,10 +13,12 @@ import urid from "urid";
 
 import { styles } from "./CommentsScreenStyles";
 import ReturnButton from "../../components/ReturnButton";
-import commentatorPhoto from "../../assets/images/comentator.png";
 import CommentComponent from "../../components/CommentComponent";
 import { SendIcon } from "../../components/SvgIcons/SvgIcons";
-import { addComment, getPosts } from "../../redux/posts/postsOperations";
+import {
+    addComment,
+    getPosts,
+} from "../../redux/posts/postsOperations";
 import {
     selectUserId,
     selectUserPhoto,
@@ -38,7 +40,6 @@ const CommentsScreen = () => {
     } = useRoute();
     const comments = useSelector(state => selectComments(state, id));
     // ПРОБЛЕМА ПРИ ЗАГРУЗЦІ КОМЕНТАРІВ ВІД ІНШОГО КОРИСТУВАЧА
-
     const compareDates = (a, b) => {
         return new Date(a.date) - new Date(b.date);
     };
@@ -47,6 +48,7 @@ const CommentsScreen = () => {
         navigation.navigate("Home", {
             screen: "PostScreen",
         });
+        // dispatch(getCommmentatorsPhoto());
     };
 
     const handleSubmit = () => {
@@ -67,6 +69,8 @@ const CommentsScreen = () => {
     useEffect(() => {
         dispatch(getPosts());
     }, [comments]);
+
+    // console.log(commentatorPhoto);
 
     return (
         <View style={styles.commentsScreenContainer}>
@@ -106,11 +110,11 @@ const CommentsScreen = () => {
                                     author={author}
                                     text={text}
                                     date={date}
-                                    userIcon={
-                                        author === userId
-                                            ? userPhoto
-                                            : commentatorPhoto
-                                    }
+                                    // userIcon={
+                                    //     author === userId
+                                    //         ? userPhoto
+                                    //         : commentatorPhoto
+                                    // }
                                 />
                             );
                         })
