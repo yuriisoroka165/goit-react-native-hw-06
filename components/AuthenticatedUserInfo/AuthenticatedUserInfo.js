@@ -7,7 +7,6 @@ import {
     selectUserName,
     selectUserEmail,
 } from "../../redux/authorization/authSelectors";
-import comentatorPhoto from "../../assets/images/comentator.png";
 
 const AuthenticatedUserInfo = () => {
     const userPhoto = useSelector(selectUserPhoto);

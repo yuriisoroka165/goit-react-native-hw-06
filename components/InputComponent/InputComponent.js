@@ -3,7 +3,7 @@ import { TextInput } from "react-native";
 
 import { styles } from "./InputComponentStyles";
 
-const InputComponent = (props) => {
+const InputComponent = props => {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
@@ -12,7 +12,6 @@ const InputComponent = (props) => {
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             {...props}
-           
         />
     );
 };

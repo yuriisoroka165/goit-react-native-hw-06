@@ -5,6 +5,7 @@ import {
     getPosts,
     addComment,
     getCommmentatorsPhoto,
+    addLike,
 } from "./postsOperations";
 
 const initialState = {
@@ -73,6 +74,24 @@ const postsSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(getCommmentatorsPhoto.rejected, (state, { payload }) => {
+                state.error = payload;
+                state.isLoading = false;
+            })
+            .addCase(addLike.pending, state => {
+                state.error = null;
+                state.isLoading = true;
+            })
+            .addCase(addLike.fulfilled, (state, { payload }) => {
+                const postIndex = state.posts.findIndex(obj =>
+                    obj.hasOwnProperty(payload[0])
+                );
+                if (postIndex !== -1) {
+                    state.posts[postIndex][payload[0]] = payload[1];
+                }
+                state.error = null;
+                state.isLoading = false;
+            })
+            .addCase(addLike.rejected, (state, { payload }) => {
                 state.error = payload;
                 state.isLoading = false;
             });

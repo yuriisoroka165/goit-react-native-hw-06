@@ -7,13 +7,14 @@ import * as Location from "expo-location";
 import { styles } from "./MapScreenStyles";
 
 const MapScreen = () => {
-    
-     const {
-         params: {
-             params: { geoLocation },
-         },
+    const {
+        params: {
+            params: { geoLocation },
+        },
     } = useRoute();
-    const [photoLocation, setPhotoLocation] = useState(geoLocation ? geoLocation : null);
+    const [photoLocation, setPhotoLocation] = useState(
+        geoLocation ? geoLocation : null
+    );
 
     useEffect(() => {
         (async () => {

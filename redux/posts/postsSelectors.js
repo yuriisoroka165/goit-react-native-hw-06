@@ -6,14 +6,9 @@ export const selectIsLoading = state => state.posts.isLoading;
 //     );
 // };
 
-export const selectCurrentUserPosts = (state, id) => {
-    // console.log(id);
-    // console.log(state.posts.posts.filter(item => Object.values(item)[0].userId === id));
-    // state.posts.posts.map(item =>
-    //     console.log(Object.values(item)[0].userId === id)
-    // );
-    return state.posts.posts.filter(item => Object.values(item)[0].userId === id);
-};
+// export const selectCurrentUserPosts = (state, id) => {
+//     return state.posts.posts.filter(item => Object.values(item)[0].userId === id);
+// };
 
 export const selectComments = (state, id) => {
     const comments = state.posts.posts.filter(item => item[id]);

@@ -35,8 +35,6 @@ const RegistrationScreen = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [userAvatar, setUserAavatar] = useState(null);
     const isAutorized = useSelector(selectIsAuthorized);
-    const userPhoto = useSelector(selectUserPhoto);
-    const useId = useSelector(selectUserId);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -66,9 +64,6 @@ const RegistrationScreen = () => {
             result.type === "authorization/registration/fulfilled"
                 ? navigation.navigate("Home", {
                       screen: "PostScreen",
-                    //   params: {
-                    //       user: email,
-                    //   },
                   })
                 : alert("Incorect data");
         });
@@ -76,14 +71,7 @@ const RegistrationScreen = () => {
         isAutorized &&
             navigation.navigate("Home", {
                 screen: "PostScreen",
-                // params: {
-                //     user: email,
-                // },
             });
-        // navigation.navigate("MapScreen");
-        // console.log(userPhoto);
-        // console.log(isAutorized);
-        // console.log(useId);
     };
 
     const uploadAvatar = async () => {

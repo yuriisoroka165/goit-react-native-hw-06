@@ -15,10 +15,7 @@ import { styles } from "./CommentsScreenStyles";
 import ReturnButton from "../../components/ReturnButton";
 import CommentComponent from "../../components/CommentComponent";
 import { SendIcon } from "../../components/SvgIcons/SvgIcons";
-import {
-    addComment,
-    getPosts,
-} from "../../redux/posts/postsOperations";
+import { addComment, getPosts } from "../../redux/posts/postsOperations";
 import {
     selectUserId,
     selectUserPhoto,
@@ -30,8 +27,6 @@ const CommentsScreen = () => {
     const userId = useSelector(selectUserId);
     const dispatch = useDispatch();
     const userPhoto = useSelector(selectUserPhoto);
-    // зроби загрузку фотки коментатора
-    // const commentatorPhoto = "dfignedjnfg";
     const navigation = useNavigation();
     const {
         params: {
@@ -39,7 +34,6 @@ const CommentsScreen = () => {
         },
     } = useRoute();
     const comments = useSelector(state => selectComments(state, id));
-    // ПРОБЛЕМА ПРИ ЗАГРУЗЦІ КОМЕНТАРІВ ВІД ІНШОГО КОРИСТУВАЧА
     const compareDates = (a, b) => {
         return new Date(a.date) - new Date(b.date);
     };
@@ -48,7 +42,6 @@ const CommentsScreen = () => {
         navigation.navigate("Home", {
             screen: "PostScreen",
         });
-        // dispatch(getCommmentatorsPhoto());
     };
 
     const handleSubmit = () => {
@@ -69,8 +62,6 @@ const CommentsScreen = () => {
     useEffect(() => {
         dispatch(getPosts());
     }, [comments]);
-
-    // console.log(commentatorPhoto);
 
     return (
         <View style={styles.commentsScreenContainer}>
@@ -110,11 +101,6 @@ const CommentsScreen = () => {
                                     author={author}
                                     text={text}
                                     date={date}
-                                    // userIcon={
-                                    //     author === userId
-                                    //         ? userPhoto
-                                    //         : commentatorPhoto
-                                    // }
                                 />
                             );
                         })

@@ -21,11 +21,7 @@ import { selectUserPhoto } from "../../redux/authorization/authSelectors";
 const AppTabs = createBottomTabNavigator();
 
 const Home = () => {
-    // const userPhoto = useSelector(selectUserPhoto);
-
     const navigation = useNavigation();
-    // const route = useRoute();
-    // console.log(route);
     const dispatch = useDispatch();
 
     return (
@@ -33,7 +29,6 @@ const Home = () => {
             <AppTabs.Screen
                 name="PostsScreen"
                 component={PostsScreen}
-                // initialParams={{ userPhoto }}
                 options={{
                     headerTitle: () => (
                         <Text style={styles.homePageHeader}>Публікації</Text>
@@ -58,7 +53,6 @@ const Home = () => {
             <AppTabs.Screen
                 name="CreatePostsScreen"
                 component={CreatePostsScreen}
-                // initialParams={{ user: route.params.params.user }}
                 options={{
                     tabBarStyle: { display: "none" },
                     headerTitle: () => (
@@ -72,9 +66,6 @@ const Home = () => {
                                 onPress={() =>
                                     navigation.navigate("Home", {
                                         screen: "PostsScreen",
-                                        // params: {
-                                        //     user: userPhoto,
-                                        // },
                                     })
                                 }
                             />

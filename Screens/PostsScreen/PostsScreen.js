@@ -18,7 +18,7 @@ const PostsScreen = () => {
     useEffect(() => {
         dispatch(getPosts());
         dispatch(getCommmentatorsPhoto());
-    }, []);
+    }, [posts]);
 
     return (
         <View style={styles.postsScreenContainer}>

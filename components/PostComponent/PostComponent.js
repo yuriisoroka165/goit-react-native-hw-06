@@ -1,7 +1,6 @@
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { styles } from "./PostComponentStyles";
 import {
@@ -10,8 +9,8 @@ import {
     LikesIcon,
     MapIcon,
 } from "../SvgIcons/SvgIcons";
-import comentatorPhoto from "../../assets/images/comentator.png"
-// import { getComments } from "../../redux/posts/postsOperations";
+import { addLike, getPosts } from "../../redux/posts/postsOperations";
+import { selectUserId } from "../../redux/authorization/authSelectors";
 
 const PostComponent = ({
     image,
@@ -20,15 +19,23 @@ const PostComponent = ({
     likes,
     locationName,
     geoLocation,
-    id
+    id,
 }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const userId = useSelector(selectUserId);
+    const likesCount = likes ? Object.values(likes).length : 0;
+    const isLiked = Object.values(likes ? likes : []).filter(
+        item => item.author === userId
+    );
 
+    const hadndlePressLike = () => {
+        dispatch(addLike([id, { author: userId, count: 1 }]));
+    };
 
-    // useEffect(() => {
-    //     dispatch(getComments());
-    // }, [comments]);
+    const hadleLiked = () => {
+        return;
+    };
 
     return (
         <View style={{ position: "relative", marginBottom: 32 }}>
@@ -60,8 +67,14 @@ const PostComponent = ({
                     <Text>{comments.length}</Text>
                 </View>
                 <View style={{ display: "flex", flexDirection: "row", gap: 6 }}>
-                    <LikesIcon />
-                    <Text>{likes}</Text>
+                    <TouchableOpacity
+                        onPress={
+                            isLiked.length === 0 ? hadndlePressLike : hadleLiked
+                        }
+                    >
+                        <LikesIcon />
+                    </TouchableOpacity>
+                    <Text>{likesCount}</Text>
                 </View>
                 <View
                     style={{

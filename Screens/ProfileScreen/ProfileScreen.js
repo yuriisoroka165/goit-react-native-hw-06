@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Image, Text, ScrollView, ImageBackground } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { styles } from "./ProfileScreenStyles";
 import Background from "../../assets/images/app_background.jpg";
@@ -10,22 +10,28 @@ import RegistrationImageAddButton from "../../components/RegistrationImageAddBut
 import RegistrationImageRemoveButton from "../../components/RegistrationImageRemoveButton";
 import PostComponent from "../../components/PostComponent/PostComponent";
 import LogoutButton from "../../components/LogoutButton";
-// import { posts } from "../../posts";
 import {
     selectUserPhoto,
     selectUserName,
     selectUserId,
 } from "../../redux/authorization/authSelectors";
-
-import { selectCurrentUserPosts } from "../../redux/posts/postsSelectors";
+import { selectAllPosts } from "../../redux/posts/postsSelectors";
+import { getPosts } from "../../redux/posts/postsOperations";
 
 const ProfileScreen = () => {
     const userId = useSelector(selectUserId);
-    const posts = useSelector(state => selectCurrentUserPosts(state, userId));
+    const userPosts = useSelector(selectAllPosts).filter(
+        item => Object.values(item)[0].userId === userId
+    );
     const userPhoto = useSelector(selectUserPhoto);
     const userName = useSelector(selectUserName);
     const [userAvatar, setUserAavatar] = useState(userAvatar);
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getPosts());
+    }, [userPosts]);
 
     const handleRemoveImage = () => {
         setUserAavatar(null);
@@ -82,7 +88,7 @@ const ProfileScreen = () => {
                     style={{ margin: 0, padding: 0 }}
                     showsVerticalScrollIndicator={false}
                 >
-                    {posts.map(item => {
+                    {userPosts.map(item => {
                         const key = Object.keys(item)[0];
                         const {
                             img,
@@ -95,6 +101,7 @@ const ProfileScreen = () => {
                         return (
                             <PostComponent
                                 key={key}
+                                id={key}
                                 image={img}
                                 description={description}
                                 likes={likes}

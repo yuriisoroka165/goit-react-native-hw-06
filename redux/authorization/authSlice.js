@@ -42,7 +42,6 @@ const authorizationSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, { payload }) => {
                 const { email, displayName, uid } = payload[0];
-                // console.log(payload[0]);
                 const photoURL = payload[1];
                 state.userId = uid;
                 state.userName = displayName;

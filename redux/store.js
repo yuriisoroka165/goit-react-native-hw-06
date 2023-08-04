@@ -10,7 +10,6 @@ import {
     REGISTER,
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import rootReducer from "./rootReducer";
 
 import authorizationReducer from "./authorization/authSlice";
 import postsReducer from "./posts/postsSlice";
@@ -46,6 +45,7 @@ const store = configureStore({
                     "posts/addComment/fulfilled",
                     "posts/getComments/fulfilled",
                     "posts/getCommmentatorsPhoto/fulfilled",
+                    "posts/addLike/fulfilled",
                 ],
                 ignoredPaths: ["firebase", "firestore"],
             },
@@ -54,5 +54,4 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-// export default { store, persistor };
 export default store;

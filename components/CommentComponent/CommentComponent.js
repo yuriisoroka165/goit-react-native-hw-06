@@ -6,12 +6,7 @@ import { styles } from "./CommentComponentStyles";
 import { selectUserId } from "../../redux/authorization/authSelectors";
 import { selectCommentatorsPhoto } from "../../redux/posts/postsSelectors";
 
-import { selectUserPhoto } from "../../redux/authorization/authSelectors";
-
 const CommentComponent = ({ author, text, date }) => {
-
-    // const userIcon = useSelector(selectUserPhoto); //
-
     const userId = useSelector(selectUserId);
 
     const commentatorsPhoto = useSelector(state =>

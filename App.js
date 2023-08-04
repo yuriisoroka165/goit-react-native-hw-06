@@ -53,21 +53,11 @@ const App = () => {
                             name="PostsScreen"
                             component={PostsScreen}
                         />
-                        {/* <MainStack.Screen
-                        options={{ headerShown: false }}
-                        name="Create Post"
-                        component={CreatePostsScreen}
-                    /> */}
                         <MainStack.Screen
                             options={{ headerShown: false }}
                             name="CommentsScreen"
                             component={CommentsScreen}
                         />
-                        {/* <MainStack.Screen
-                        options={{ headerShown: false }}
-                        name="Profile"
-                        component={ProfileScreen}
-                    /> */}
                         <MainStack.Screen
                             name="MapScreen"
                             component={MapScreen}

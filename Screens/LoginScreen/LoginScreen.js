@@ -14,11 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./LoginScreenStyles";
 import Background from "../../assets/images/app_background.jpg";
 import InputComponent from "../../components/InputComponent";
-import {
-    selectIsAuthorized,
-    // selectUserPhoto,
-    // selectUserId,
-} from "../../redux/authorization/authSelectors";
+import { selectIsAuthorized } from "../../redux/authorization/authSelectors";
 import { login } from "../../redux/authorization/authOperations";
 
 const LoginScreen = () => {
@@ -47,7 +43,6 @@ const LoginScreen = () => {
             return;
         }
         dispatch(login({ email, password })).then(result => {
-            // console.log(result.type);
             result.type === "authorization/login/fulfilled"
                 ? navigateToPostsScreen()
                 : alert("Incorect data");
