@@ -16,17 +16,14 @@ import ReturnButton from "../../components/ReturnButton";
 import CommentComponent from "../../components/CommentComponent";
 import { SendIcon } from "../../components/SvgIcons/SvgIcons";
 import { addComment, getPosts } from "../../redux/posts/postsOperations";
-import {
-    selectUserId,
-    selectUserPhoto,
-} from "../../redux/authorization/authSelectors";
+import { selectUserId } from "../../redux/authorization/authSelectors";
 import { selectComments } from "../../redux/posts/postsSelectors";
 
 const CommentsScreen = () => {
     const [comment, setComment] = useState("");
+    const [submittingComment, setSubmittingComment] = useState(false);
     const userId = useSelector(selectUserId);
     const dispatch = useDispatch();
-    const userPhoto = useSelector(selectUserPhoto);
     const navigation = useNavigation();
     const {
         params: {
@@ -34,6 +31,7 @@ const CommentsScreen = () => {
         },
     } = useRoute();
     const comments = useSelector(state => selectComments(state, id));
+
     const compareDates = (a, b) => {
         return new Date(a.date) - new Date(b.date);
     };
@@ -45,6 +43,10 @@ const CommentsScreen = () => {
     };
 
     const handleSubmit = () => {
+        if (comment === "") {
+            return;
+        }
+        setSubmittingComment(true);
         dispatch(
             addComment([
                 id,
@@ -60,8 +62,13 @@ const CommentsScreen = () => {
     };
 
     useEffect(() => {
-        dispatch(getPosts());
-    }, [comments]);
+        if (submittingComment) {
+            // Викликаємо getPosts тільки коли коментар відправлений
+            dispatch(getPosts());
+            setSubmittingComment(false); // Змінюємо стан після завершення запиту
+        }
+        return;
+    }, [dispatch]);
 
     return (
         <View style={styles.commentsScreenContainer}>

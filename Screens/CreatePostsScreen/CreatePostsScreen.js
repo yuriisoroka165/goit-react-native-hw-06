@@ -116,6 +116,7 @@ const CreatePostsScreen = () => {
                 userId,
                 comments: [],
                 likes: 0,
+                date: new Date(),
             })
         );
         clearData();

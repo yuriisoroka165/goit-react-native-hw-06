@@ -9,7 +9,7 @@ import {
 import { storage } from "../../firebase/config";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-const upload = async (file, currentUser) => {
+export const upload = async (file, currentUser) => {
     const response = await fetch(file);
     const blob = await response.blob();
     const fileRef = ref(storage, "profileAvatars/" + currentUser + ".png");
@@ -71,7 +71,7 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
     "authorization/logout",
-    async (userData, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const result = await auth.signOut();
             return result;

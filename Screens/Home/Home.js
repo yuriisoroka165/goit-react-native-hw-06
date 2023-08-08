@@ -1,8 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 
 import CreatePostsScreen from "../CreatePostsScreen";
 import PostsScreen from "../PostsScreen";
@@ -16,7 +16,6 @@ import {
     ProfileIcon,
 } from "../../components/SvgIcons/SvgIcons";
 import { logout } from "../../redux/authorization/authOperations";
-import { selectUserPhoto } from "../../redux/authorization/authSelectors";
 
 const AppTabs = createBottomTabNavigator();
 

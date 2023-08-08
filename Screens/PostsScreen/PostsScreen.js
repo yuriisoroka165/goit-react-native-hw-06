@@ -14,11 +14,17 @@ import {
 const PostsScreen = () => {
     const posts = useSelector(selectAllPosts);
     const dispatch = useDispatch();
+    const sortedPosts = [...posts].sort((a, b) => {
+        const dateA = Object.values(a)[0].date;
+        const dateB = Object.values(b)[0].date;
+        return new Date(dateB).getTime() - new Date(dateA).getTime();
+    });
 
     useEffect(() => {
         dispatch(getPosts());
         dispatch(getCommmentatorsPhoto());
-    }, [posts]);
+    }, [dispatch]);
+    // console.log(posts);
 
     return (
         <View style={styles.postsScreenContainer}>
@@ -27,10 +33,10 @@ const PostsScreen = () => {
                 style={{ margin: 0, padding: 16 }}
                 showsVerticalScrollIndicator={false}
             >
-                {posts.length === 0 ? (
+                {sortedPosts.length === 0 ? (
                     <View></View>
                 ) : (
-                    posts.map(item => {
+                    sortedPosts.map(item => {
                         const key = Object.keys(item)[0];
                         const {
                             img,

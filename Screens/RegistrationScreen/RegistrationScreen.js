@@ -22,8 +22,6 @@ import InputComponent from "../../components/InputComponent";
 import { registration } from "../../redux/authorization/authOperations";
 import {
     selectIsAuthorized,
-    selectUserPhoto,
-    selectUserId,
 } from "../../redux/authorization/authSelectors";
 
 const RegistrationScreen = () => {

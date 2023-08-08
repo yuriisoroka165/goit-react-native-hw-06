@@ -14,10 +14,15 @@ const AuthenticatedUserInfo = () => {
     const userEmail = useSelector(selectUserEmail);
     return (
         <View style={styles.userContainer}>
-            <Image
-                source={{ uri: userPhoto }}
-                style={{ width: 60, height: 60, borderRadius: 16 }}
-            />
+            {userPhoto !== "" ? (
+                <Image
+                    source={{ uri: userPhoto }}
+                    style={{ width: 60, height: 60, borderRadius: 16 }}
+                />
+            ) : (
+                <View></View>
+            )}
+
             <View>
                 <Text style={{ fontSize: 13, fontWeight: 700 }}>
                     {userName}

@@ -17,21 +17,31 @@ import {
 } from "../../redux/authorization/authSelectors";
 import { selectAllPosts } from "../../redux/posts/postsSelectors";
 import { getPosts } from "../../redux/posts/postsOperations";
+import { upload } from "../../redux/authorization/authOperations";
+import { storage } from "../../firebase/config";
+import { ref, uploadBytesResumable, uploadBytes } from "firebase/storage";
 
 const ProfileScreen = () => {
     const userId = useSelector(selectUserId);
     const userPosts = useSelector(selectAllPosts).filter(
         item => Object.values(item)[0].userId === userId
     );
+
+    const sortedUserPosts = [...userPosts].sort((a, b) => {
+        const dateA = Object.values(a)[0].date;
+        const dateB = Object.values(b)[0].date;
+        return new Date(dateB).getTime() - new Date(dateA).getTime();
+    });
+
     const userPhoto = useSelector(selectUserPhoto);
     const userName = useSelector(selectUserName);
-    const [userAvatar, setUserAavatar] = useState(userAvatar);
+    const [userAvatar, setUserAavatar] = useState(userPhoto);
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getPosts());
-    }, [userPosts]);
+    }, [sortedUserPosts]);
 
     const handleRemoveImage = () => {
         setUserAavatar(null);
@@ -46,6 +56,16 @@ const ProfileScreen = () => {
         });
 
         if (!result.canceled) setUserAavatar(result.assets[0].uri);
+        // change useravatar
+        try {
+            const response = await fetch(userAvatar);
+            const blob = await response.blob();
+            const fileRef = ref(storage, "profileAvatars/" + userId + ".png");
+            // await uploadBytesResumable(fileRef, blob);
+            await uploadBytes(fileRef, blob);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -62,9 +82,9 @@ const ProfileScreen = () => {
                 </View>
 
                 <View style={styles.userImageContainer}>
-                    {userPhoto && (
+                    {userAvatar && (
                         <Image
-                            source={{ uri: userPhoto }}
+                            source={{ uri: userAvatar }}
                             style={{
                                 width: 120,
                                 height: 120,
@@ -72,7 +92,7 @@ const ProfileScreen = () => {
                             }}
                         />
                     )}
-                    {!userPhoto ? (
+                    {!userAvatar ? (
                         <RegistrationImageAddButton
                             onPress={uploadAvatar}
                         ></RegistrationImageAddButton>
@@ -88,7 +108,7 @@ const ProfileScreen = () => {
                     style={{ margin: 0, padding: 0 }}
                     showsVerticalScrollIndicator={false}
                 >
-                    {userPosts.map(item => {
+                    {sortedUserPosts.map(item => {
                         const key = Object.keys(item)[0];
                         const {
                             img,

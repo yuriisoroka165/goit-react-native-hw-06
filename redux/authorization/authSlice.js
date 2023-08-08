@@ -61,17 +61,21 @@ const authorizationSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(logout.fulfilled, state => {
-                state.userId = "";
-                state.userName = "";
-                state.email = "";
-                state.userPhoto = "";
+                state.userId = null;
+                state.userName = null;
+                state.email = null;
+                state.userPhoto = null;
                 state.error = null;
                 state.isAuthorized = false;
                 state.isLoading = false;
             })
             .addCase(logout.rejected, (state, { payload }) => {
                 state.error = payload;
-                state.isAuthorized = true;
+                state.userId = null;
+                state.userName = null;
+                state.email = null;
+                state.userPhoto = null;
+                state.isAuthorized = false;
                 state.isLoading = false;
             });
     },

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import {
     View,
     Text,
@@ -16,6 +16,7 @@ import Background from "../../assets/images/app_background.jpg";
 import InputComponent from "../../components/InputComponent";
 import { selectIsAuthorized } from "../../redux/authorization/authSelectors";
 import { login } from "../../redux/authorization/authOperations";
+import { useEffect } from "react";
 
 const LoginScreen = () => {
     const dispatch = useDispatch();
@@ -31,7 +32,12 @@ const LoginScreen = () => {
         });
     };
 
-    isAutorized && navigateToPostsScreen();
+    useEffect(() => {
+        if (isAutorized) {
+            navigateToPostsScreen();
+        }
+    }, [isAutorized]);
+    // isAutorized && navigateToPostsScreen();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
