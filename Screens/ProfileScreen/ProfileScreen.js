@@ -17,9 +17,7 @@ import {
 } from "../../redux/authorization/authSelectors";
 import { selectAllPosts } from "../../redux/posts/postsSelectors";
 import { getPosts } from "../../redux/posts/postsOperations";
-import { upload } from "../../redux/authorization/authOperations";
-import { storage } from "../../firebase/config";
-import { ref, uploadBytesResumable, uploadBytes } from "firebase/storage";
+import { uploadNewAvatar } from "../../redux/authorization/authOperations";
 
 const ProfileScreen = () => {
     const userId = useSelector(selectUserId);
@@ -55,16 +53,9 @@ const ProfileScreen = () => {
             quality: 1,
         });
 
-        if (!result.canceled) setUserAavatar(result.assets[0].uri);
-        // change useravatar
-        try {
-            const response = await fetch(userAvatar);
-            const blob = await response.blob();
-            const fileRef = ref(storage, "profileAvatars/" + userId + ".png");
-            // await uploadBytesResumable(fileRef, blob);
-            await uploadBytes(fileRef, blob);
-        } catch (error) {
-            console.log(error);
+        if (!result.canceled) {
+            setUserAavatar(result.assets[0].uri);
+            dispatch(uploadNewAvatar([userId, result.assets[0].uri]));
         }
     };
 

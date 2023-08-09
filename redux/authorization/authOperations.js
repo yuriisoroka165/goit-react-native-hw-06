@@ -1,13 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
-import { auth } from "../../firebase/config";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     updateProfile,
 } from "firebase/auth";
+
+import {
+    deleteObject,
+    getDownloadURL,
+    getMetadata,
+    ref,
+    uploadBytesResumable,
+} from "firebase/storage";
 import { storage } from "../../firebase/config";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { auth } from "../../firebase/config";
 
 export const upload = async (file, currentUser) => {
     const response = await fetch(file);
@@ -34,6 +40,31 @@ export const registration = createAsyncThunk(
                 await upload(userPhoto, tryRegistration.user.uid);
                 return tryRegistration.user;
             }
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+export const uploadNewAvatar = createAsyncThunk(
+    "authorization/uploadNewAvatar",
+    async (data, thunkAPI) => {
+        try {
+            let photoFromDB = null;
+            const response = await fetch(data[1]);
+            const blob = await response.blob();
+            const fileRef = ref(storage, "profileAvatars/" + data[0] + ".png");
+            try {
+                const exitingFile = await getMetadata(fileRef);
+                await deleteObject(fileRef);
+            } catch (error) {
+                console.log(error);
+            }
+            await uploadBytesResumable(fileRef, blob);
+            await getDownloadURL(fileRef).then(data => {
+                photoFromDB = data;
+            });
+            return photoFromDB;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
         }

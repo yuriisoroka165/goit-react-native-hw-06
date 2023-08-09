@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { registration, login, logout } from "./authOperations";
+import { registration, login, logout, uploadNewAvatar } from "./authOperations";
 
 const initialState = {
     userId: "",
@@ -76,6 +76,18 @@ const authorizationSlice = createSlice({
                 state.email = null;
                 state.userPhoto = null;
                 state.isAuthorized = false;
+                state.isLoading = false;
+            })
+            .addCase(uploadNewAvatar.pending, state => {
+                state.error = null;
+                state.isLoading = true;
+            })
+            .addCase(uploadNewAvatar.fulfilled, (state, { payload }) => {
+                state.userPhoto = payload;
+                state.error = null;
+                state.isLoading = false;
+            })
+            .addCase(uploadNewAvatar.rejected, state => {
                 state.isLoading = false;
             });
     },

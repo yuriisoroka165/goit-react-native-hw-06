@@ -40,6 +40,7 @@ const store = configureStore({
                     REGISTER,
                     "authorization/registration/fulfilled",
                     "authorization/login/fulfilled",
+                    "authorization/uploadNewAvatar/fulfilled",
                     "posts/addPosts/fulfilled",
                     "posts/getPosts/fulfilled",
                     "posts/addComment/fulfilled",

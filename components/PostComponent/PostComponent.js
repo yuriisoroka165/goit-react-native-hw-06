@@ -9,7 +9,7 @@ import {
     LikesIcon,
     MapIcon,
 } from "../SvgIcons/SvgIcons";
-import { addLike, getPosts } from "../../redux/posts/postsOperations";
+import { addLike } from "../../redux/posts/postsOperations";
 import { selectUserId } from "../../redux/authorization/authSelectors";
 
 const PostComponent = ({

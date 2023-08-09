@@ -13,9 +13,27 @@ const CommentComponent = ({ author, text, date }) => {
         selectCommentatorsPhoto(state, author)
     );
 
-    const formattedDate = moment(date)
-        .utcOffset("+0300")
-        .format("DD MMMM, YYYY | HH:mm");
+    const ukrainianMonths = [
+        "січня",
+        "лютого",
+        "березня",
+        "квітня",
+        "травня",
+        "червня",
+        "липня",
+        "серпня",
+        "вересня",
+        "жовтня",
+        "листопада",
+        "грудня",
+    ];
+    const dateObject = moment(date).utcOffset("+0300");
+    const day = dateObject.format("DD");
+    const monthIndex = dateObject.month(); // Повертає індекс місяця (0-11)
+    const year = dateObject.format("YYYY");
+    const time = dateObject.format("HH:mm");
+    const formattedDate = `${day} ${ukrainianMonths[monthIndex]}, ${year} | ${time}`;
+
     return (
         <View
             style={[

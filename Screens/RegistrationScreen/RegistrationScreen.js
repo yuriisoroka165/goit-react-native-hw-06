@@ -20,9 +20,7 @@ import RegistrationImageAddButton from "../../components/RegistrationImageAddBut
 import RegistrationImageRemoveButton from "../../components/RegistrationImageRemoveButton";
 import InputComponent from "../../components/InputComponent";
 import { registration } from "../../redux/authorization/authOperations";
-import {
-    selectIsAuthorized,
-} from "../../redux/authorization/authSelectors";
+import { selectIsAuthorized } from "../../redux/authorization/authSelectors";
 
 const RegistrationScreen = () => {
     const dispatch = useDispatch();

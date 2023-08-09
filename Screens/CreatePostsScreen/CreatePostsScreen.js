@@ -25,7 +25,6 @@ import {
 import { addPost } from "../../redux/posts/postsOperations";
 import { selectUserId } from "../../redux/authorization/authSelectors";
 import { uploadPhotoToStore } from "../../redux/storage/storageOperations";
-import { selectAllPosts } from "../../redux/posts/postsSelectors";
 
 const CreatePostsScreen = () => {
     const navigation = useNavigation();
@@ -37,7 +36,6 @@ const CreatePostsScreen = () => {
     const cameraRef = useRef(null);
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
-    const allPosts = useSelector(selectAllPosts);
 
     useEffect(() => {
         (async () => {

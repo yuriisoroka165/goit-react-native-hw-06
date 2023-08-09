@@ -24,7 +24,6 @@ const PostsScreen = () => {
         dispatch(getPosts());
         dispatch(getCommmentatorsPhoto());
     }, [dispatch]);
-    // console.log(posts);
 
     return (
         <View style={styles.postsScreenContainer}>

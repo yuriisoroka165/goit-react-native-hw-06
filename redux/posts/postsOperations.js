@@ -98,7 +98,7 @@ export const getCommmentatorsPhoto = createAsyncThunk(
             }
             return photos;
         } catch (error) {
-            return error;
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 );
